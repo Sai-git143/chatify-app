@@ -1,20 +1,13 @@
 // const express=require('express');
 import express from 'express'
 import dotenv from 'dotenv'
+import authRoutes from './routes/auth.routes.js'
+import messagesRoutes from './routes/messages.routes.js'
+
 dotenv.config();
 
 const app=express();
 const PORT=process.env.PORT || 3000;
-app.get("/api/auth/signup",(req,res)=>{
-    res.end("signup endpoint");
-});
-
-app.get("/api/auth/login",(req,res)=>{
-    res.end("login endpoint");
-});
-
-app.get("/api/auth/signin",(req,res)=>{
-    res.end("signin endpoint");
-});
-
+app.use("/api/auth",authRoutes);
+app.use("/api/messages",messagesRoutes);
 app.listen(PORT,()=> console.log("Server is Running "+PORT));
