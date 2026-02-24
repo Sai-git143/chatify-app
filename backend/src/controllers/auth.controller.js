@@ -8,7 +8,9 @@ export const signup=async (req,res)=>{
         if(!fullName ||!email||!password){
             return res.status(400).json({message:"All fields are required"})
         }
-
+        if(password.length <6){
+            return res.status(400).json({message:"Password must be at least 6 characters"})
+        }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
         if (!emailRegex.test(email)) {
@@ -27,9 +29,9 @@ export const signup=async (req,res)=>{
             });
     
         if (newUser) {
-            generateToken(newUser._id, res);
-            await  newUser.save();
-
+            
+            const savedUser=await  newUser.save();
+            generateToken(savedUser._id, res);
             res.status(201).json({
                 _id: newUser._id,
                 fullName: newUser.fullName,
